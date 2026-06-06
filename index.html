@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <!-- viewport-fit=cover -> use full screen incl. notches; interactive-widget keeps layout above the soft keyboard on Android -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+
+  <title>Reframe — CBT Thought Record</title>
+  <meta name="description" content="A private, gentle CBT thought record. Notice a thought, weigh it fairly, and find a more balanced perspective. Everything stays on your device." />
+
+  <!-- Theme color follows light/dark -->
+  <meta name="theme-color" content="#f6f8f7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0c1311" media="(prefers-color-scheme: dark)" />
+
+  <!-- PWA / installability -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Reframe" />
+
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/app.css" />
+  <link rel="stylesheet" href="styles/print.css" media="print" />
+</head>
+<body>
+  <div id="app" aria-busy="true">
+    <!-- Boot splash, replaced by the app once JS loads -->
+    <div class="boot">
+      <div class="boot__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 4 9 15" />
+          <path d="M20 4c-7 0-14 3-14 11v3h3c8 0 11-7 11-14z" />
+          <path d="M5 19l4-4" />
+        </svg>
+      </div>
+      <p class="boot__name">Reframe</p>
+    </div>
+  </div>
+
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
