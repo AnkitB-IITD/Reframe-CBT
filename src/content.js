@@ -30,7 +30,7 @@ export const TRAP_BY_KEY = Object.fromEntries(TRAPS.map((t) => [t.key, t]));
 export const ONBOARDING = [
   {
     title: 'Notice the thought',
-    body: 'When a moment leaves you upset, Reframe walks you through it gently — one step at a time.',
+    body: 'When a moment leaves you upset, Unspiral walks you through it gently — one step at a time.',
     art: 'bubble'
   },
   {
@@ -47,7 +47,7 @@ export const ONBOARDING = [
 
 // Shown on home, settings, and onboarding. This is not therapy.
 export const DISCLAIMER =
-  'Reframe is a self-help tool, not a substitute for professional care. ' +
+  'Unspiral is a self-help tool, not a substitute for professional care. ' +
   'If you’re struggling, please reach out to a qualified professional or a crisis line.';
 
 // Crisis resources. Defaults to widely-reachable lines; a region note keeps

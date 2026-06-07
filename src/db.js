@@ -149,7 +149,7 @@ export const db = {
       if (v !== undefined && v !== null) settings[k] = v;
     }
     return {
-      app: 'Reframe',
+      app: 'Unspiral',
       schema: 1,
       exportedAt: new Date().toISOString(),
       counts: { records: records.length },

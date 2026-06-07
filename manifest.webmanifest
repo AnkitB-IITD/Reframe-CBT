@@ -1,6 +1,6 @@
 {
-  "name": "Reframe — CBT Thought Record",
-  "short_name": "Reframe",
+  "name": "Unspiral: CBT Thought Journal",
+  "short_name": "Unspiral",
   "description": "A private, gentle CBT thought record journal. Works fully offline; your entries never leave your device.",
   "id": "/?source=pwa",
   "start_url": "index.html?source=pwa",

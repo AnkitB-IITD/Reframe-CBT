@@ -60,7 +60,7 @@ function fromCSV(text) {
     balanced: at('Balanced thought'), belief: at('Belief %'), after: at('Moods (after)'),
     outcome: at('Outcome')
   };
-  if (c.situation < 0 || c.date < 0) throw new Error('Unrecognised CSV — expected a Reframe export.');
+  if (c.situation < 0 || c.date < 0) throw new Error('Unrecognised CSV — expected a Unspiral export.');
 
   return rows.slice(1).map((r) => {
     const g = (k) => (c[k] >= 0 ? (r[c[k]] || '') : '');
@@ -95,7 +95,7 @@ function setPinModal() {
       <div class="scrim" role="dialog" aria-modal="true">
         <div class="modal">
           <h3>Set a 4-digit PIN</h3>
-          <p>You’ll enter this each time you open Reframe.</p>
+          <p>You’ll enter this each time you open Unspiral.</p>
           <input type="password" inputmode="numeric" maxlength="4" id="pin1" placeholder="••••" style="text-align:center;letter-spacing:.5em;font-size:1.4rem">
           <input type="password" inputmode="numeric" maxlength="4" id="pin2" placeholder="Confirm" class="mt-2" style="text-align:center;letter-spacing:.5em;font-size:1.4rem">
           <div class="modal__actions mt-4">
@@ -125,7 +125,7 @@ export async function SettingsView(ctx) {
     db.getMeta('reminder', { on: false, time: '20:00' }),
     getEntitlement()
   ]);
-  const planLabel = ent.status === 'pro' ? 'Reframe Pro'
+  const planLabel = ent.status === 'pro' ? 'Unspiral Pro'
     : ent.status === 'trial' ? `Pro trial · ${ent.trialDaysLeft} days left`
     : 'Free';
 
@@ -135,7 +135,7 @@ export async function SettingsView(ctx) {
 
     <div class="card">
       <div class="setrow">
-        <div class="setrow__body"><strong>App lock</strong><p>Require a PIN to open Reframe. Use fingerprint/face in the installed app.</p></div>
+        <div class="setrow__body"><strong>App lock</strong><p>Require a PIN to open Unspiral. Use fingerprint/face in the installed app.</p></div>
         <label class="switch"><input type="checkbox" id="s-lock" ${pinHash ? 'checked' : ''}><span class="switch__track"></span></label>
       </div>
       <div class="setrow">
@@ -160,7 +160,7 @@ export async function SettingsView(ctx) {
 
     <div class="card">
       <div class="setrow">
-        <div class="setrow__body"><strong>Your plan · ${esc(planLabel)}</strong><p>Reframe is completely free right now — every feature, no account, no limits. 🌱</p></div>
+        <div class="setrow__body"><strong>Your plan · ${esc(planLabel)}</strong><p>Unspiral is completely free right now — every feature, no account, no limits. 🌱</p></div>
       </div>
     </div>
 
@@ -182,7 +182,7 @@ export async function SettingsView(ctx) {
 
     <button class="navlink" data-go="learn">
       <span class="navlink__icon">${icon('book', 20)}</span>
-      <span class="navlink__body"><strong>How Reframe works</strong><p>New to CBT? A 1-minute primer and the research behind it.</p></span>
+      <span class="navlink__body"><strong>How Unspiral works</strong><p>New to CBT? A 1-minute primer and the research behind it.</p></span>
       <span class="navlink__chev">${icon('chevron', 20)}</span>
     </button>
 
@@ -200,7 +200,7 @@ export async function SettingsView(ctx) {
     </div>
 
     <p class="hint text-center mt-5">${esc(DISCLAIMER)}</p>
-    <p class="hint text-center mt-2">Reframe · v1.0 · made with care</p>
+    <p class="hint text-center mt-2">Unspiral · v1.0 · by Ironwake Labs</p>
   `;
 
   // ---- app lock ----
@@ -251,7 +251,7 @@ export async function SettingsView(ctx) {
   on(view, 'click', '[data-export-pdf]', async () => {
     const records = await db.all();
     if (!records.length) return toast('No records to export yet');
-    if (!(await isPro())) { toast('PDF export is part of Reframe Pro'); return; } // dormant while LAUNCH_FREE
+    if (!(await isPro())) { toast('PDF export is part of Unspiral Pro'); return; } // dormant while LAUNCH_FREE
     exportAllPdf(records);
   });
 
@@ -332,7 +332,7 @@ export async function applyReminder(onState, time) {
     await LN.schedule({
       notifications: [{
         id: REMINDER_ID,
-        title: 'Reframe',
+        title: 'Unspiral',
         body: 'A quiet moment to check in with your thoughts?',
         channelId: REMINDER_CHANNEL,
         schedule: { on: { hour: hh, minute: mm }, repeats: true, allowWhileIdle: true }

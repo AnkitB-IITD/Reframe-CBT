@@ -1,15 +1,18 @@
-# Reframe — Google Play store listing copy
+# Unspiral — Google Play store listing copy
 
 Paste these into Play Console → Store listing. Tweak freely. Everything here is
 phrased to stay within Play's health-app rules (self-help, no medical claims).
 
 ---
 
+**Developer / publisher name** (set in Play Console → Account → Developer name): **Ironwake Labs**
+**Package / applicationId** (permanent): `com.ironwakelabs.unspiral`
+
 ## App name (max 30 chars)
 ```
-Reframe: CBT Thought Record
+Unspiral: CBT Thought Journal
 ```
-(27 chars. Alternatives: "Reframe — CBT Journal", "Reframe: Thought Diary")
+(29 chars. Device label is just "Unspiral". Alternatives: "Unspiral — CBT Journal", "Unspiral: Thought Diary")
 
 ## Short description (max 80 chars)
 ```
@@ -19,9 +22,9 @@ Private CBT thought-record journal to calm anxious thoughts. Works offline.
 
 ## Full description (max 4000 chars)
 ```
-Reframe is a private, gentle journal for the classic CBT thought record — a simple, well-researched way to work through upsetting moments and find a calmer, more balanced perspective.
+Unspiral is a private, gentle journal for the classic CBT thought record — a simple, well-researched way to work through upsetting moments and find a calmer, more balanced perspective.
 
-When a thought is weighing on you, Reframe walks you through it one step at a time:
+When a thought is weighing on you, Unspiral walks you through it one step at a time:
 
 1. Situation — what actually happened
 2. Moods — what you felt, and how strongly
@@ -47,11 +50,11 @@ WHY PEOPLE CHOOSE REFRAME
 
 GROUNDED IN RESEARCH
 
-CBT and the thought record are among the most studied tools in mental health. Reframe is built around the standard 7-column approach used in clinical practice. (Reframe is a self-help tool, not therapy.)
+CBT and the thought record are among the most studied tools in mental health. Unspiral is built around the standard 7-column approach used in clinical practice. (Unspiral is a self-help tool, not therapy.)
 
 IMPORTANT
 
-Reframe is for self-help and general wellbeing. It is not a medical device and not a substitute for professional care or diagnosis. If you are struggling or in crisis, please reach out to a qualified professional or a crisis line — there are links inside the app.
+Unspiral is for self-help and general wellbeing. It is not a medical device and not a substitute for professional care or diagnosis. If you are struggling or in crisis, please reach out to a qualified professional or a crisis line — there are links inside the app.
 
 Start with one thought. See how it feels to look at it clearly.
 ```
@@ -81,7 +84,7 @@ Play requires a public contact email on the listing. Use the same one as in
 | App icon | 512×512 PNG (32-bit) | ✅ `icons/icon-512.png` |
 | Feature graphic | 1024×500 PNG/JPG | ✅ `store-assets/feature-graphic.png` (regenerate with `npm run graphics`; source `feature-graphic.svg`) |
 | Phone screenshots | 2–8, PNG/JPG, 16:9 or 9:16, 320–3840 px | ⬜ capture: Home, the wizard (a step), Insights, a saved record, Settings |
-| Privacy policy URL | public https link | ✅ host `privacy.html` (e.g. https://ankitb-iitd.github.io/Reframe-CBT/privacy.html) |
+| Privacy policy URL | public https link | ✅ host `privacy.html` (e.g. https://ankitb-iitd.github.io/Unspiral-CBT/privacy.html) |
 | Tablet screenshots | optional | ⬜ optional |
 
 Tip: capture screenshots from a real device or the Android Studio emulator at a

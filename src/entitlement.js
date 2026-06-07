@@ -3,7 +3,7 @@
 
    Right now LAUNCH_FREE = true, so EVERY feature is unlocked for
    everyone and nothing is gated. The plumbing below means that when
-   you're ready to introduce "Reframe Pro" you only:
+   you're ready to introduce "Unspiral Pro" you only:
      1) set LAUNCH_FREE = false,
      2) wrap Pro-only features in `if (await isPro()) { ... }`,
      3) call startTrial() on first run and wire a real purchase

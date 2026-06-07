@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 500" width="1024" height="500" role="img" aria-label="Reframe — CBT thought records, kept private">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 500" width="1024" height="500" role="img" aria-label="Unspiral — CBT thought records, kept private">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#1aa088"/>
@@ -28,7 +28,7 @@
     <path d="M5 19l4-4"/>
   </g>
 
-  <text x="250" y="258" font-family="Arial, Helvetica, sans-serif" font-size="100" font-weight="800" letter-spacing="-3" fill="#ffffff">Reframe</text>
+  <text x="250" y="258" font-family="Arial, Helvetica, sans-serif" font-size="100" font-weight="800" letter-spacing="-3" fill="#ffffff">Unspiral</text>
   <text x="254" y="312" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="500" fill="#ffffff" fill-opacity="0.9">CBT thought records, kept private</text>
   <text x="254" y="356" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.7">Notice it · weigh it · reframe it</text>
 </svg>

@@ -1,4 +1,4 @@
-# Reframe — CBT 7-Column Thought Record
+# Unspiral — CBT 7-Column Thought Record
 
 A private, gentle, **offline-first** thought-record app for working through the
 classic Cognitive Behavioural Therapy 7-column exercise. Built **Android-first**
@@ -178,7 +178,7 @@ PIN is stored only as a SHA-256 hash.
 
 ## Disclaimer
 
-Reframe is a self-help tool, not a substitute for professional care. If you’re
+Unspiral is a self-help tool, not a substitute for professional care. If you’re
 struggling, please contact a qualified professional or a crisis line.
 
 ## License

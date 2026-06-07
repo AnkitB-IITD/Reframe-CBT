@@ -11,7 +11,7 @@ export function runLock(pinHash) {
       if (Bio) {
         const avail = await Bio.isAvailable();
         if (avail && avail.isAvailable) {
-          await Bio.verifyIdentity({ reason: 'Unlock Reframe', title: 'Reframe' });
+          await Bio.verifyIdentity({ reason: 'Unlock Unspiral', title: 'Unspiral' });
           return resolve(); // verifyIdentity throws if it fails
         }
       }

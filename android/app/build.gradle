@@ -26,7 +26,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.reframe.cbt"
+        applicationId "com.ironwakelabs.unspiral"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

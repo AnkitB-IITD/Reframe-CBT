@@ -40,10 +40,10 @@ function buildShell() {
   const app = h(`
     <div class="app">
       <header class="hdr">
-        <div class="hdr__title">${icon('feather', 22)} Reframe</div>
+        <div class="hdr__title">${icon('feather', 22)} Unspiral</div>
         <div class="hdr__actions">
           <button class="iconbtn iconbtn--bare" id="hdr-crisis" aria-label="Get support" title="Get support">${icon('lifebuoy', 22)}</button>
-          <button class="iconbtn iconbtn--bare" id="hdr-learn" aria-label="How Reframe works" title="How Reframe works">${icon('info', 22)}</button>
+          <button class="iconbtn iconbtn--bare" id="hdr-learn" aria-label="How Unspiral works" title="How Unspiral works">${icon('info', 22)}</button>
           <button class="iconbtn iconbtn--bare" id="hdr-theme" aria-label="Toggle theme">${icon('moon', 22)}</button>
         </div>
       </header>
@@ -154,5 +154,5 @@ if ('serviceWorker' in navigator) {
 boot().catch((err) => {
   console.error('Boot failed:', err);
   const root = document.getElementById('app');
-  root.innerHTML = '<div class="empty" style="padding-top:30vh"><p>Reframe couldn’t start. Please reload.</p></div>';
+  root.innerHTML = '<div class="empty" style="padding-top:30vh"><p>Unspiral couldn’t start. Please reload.</p></div>';
 });

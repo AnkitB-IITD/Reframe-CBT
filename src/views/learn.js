@@ -8,7 +8,7 @@ export async function LearnView(ctx) {
   const view = h('<div class="view"></div>');
   view.innerHTML = `
     <button class="btn btn--quiet detail__back" data-back>${icon('back', 18)} Back</button>
-    <h1 class="greeting" style="font-size:var(--fs-2xl)">How Reframe works</h1>
+    <h1 class="greeting" style="font-size:var(--fs-2xl)">How Unspiral works</h1>
     <p class="sub">New to this? Here’s the idea in a minute.</p>
 
     <div class="card mt-4">
@@ -40,7 +40,7 @@ export async function LearnView(ctx) {
         <span class="research__ext">${icon('external', 18)}</span>
       </a>`).join('')}
 
-    <p class="hint text-center mt-5">Reframe is a self-help tool, not a substitute for professional care.</p>
+    <p class="hint text-center mt-5">Unspiral is a self-help tool, not a substitute for professional care.</p>
   `;
 
   on(view, 'click', '[data-back]', () => ctx.navigate('settings', {}));

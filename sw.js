@@ -1,4 +1,4 @@
-/* Reframe service worker — offline-first app shell cache.
+/* Unspiral service worker — offline-first app shell cache.
  * Bump CACHE on any release so clients pull fresh assets. */
 const CACHE = 'reframe-v5';
 

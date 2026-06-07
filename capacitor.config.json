@@ -1,6 +1,6 @@
 {
-  "appId": "com.reframe.cbt",
-  "appName": "Reframe",
+  "appId": "com.ironwakelabs.unspiral",
+  "appName": "Unspiral",
   "webDir": "www",
   "android": {
     "allowMixedContent": false,

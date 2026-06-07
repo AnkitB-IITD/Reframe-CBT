@@ -27,7 +27,7 @@ function recordToText(r) {
     `5. Evidence against: ${r.evidenceAgainst || '—'}`,
     `6. Balanced thought: ${r.balancedThought || '—'} (believe ${r.balancedBelief ?? '—'}%)`,
     `7. Outcome: ${r.outcome || '—'}`,
-    ``, `— made with Reframe`
+    ``, `— made with Unspiral`
   ].filter((l) => l !== '').join('\n');
 }
 
@@ -42,7 +42,7 @@ export async function DetailView(ctx) {
     <div class="print-head">
       <div class="k">Cognitive Behavioural Therapy</div>
       <div class="t">7-Column Thought Record</div>
-      <div class="m"><span>${esc(fmtDateTime(r.date))}</span><span>Reframe</span></div>
+      <div class="m"><span>${esc(fmtDateTime(r.date))}</span><span>Unspiral</span></div>
     </div>
 
     <button class="btn btn--quiet detail__back" data-back>${icon('back', 18)} Back</button>
