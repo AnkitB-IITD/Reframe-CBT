@@ -1,0 +1,121 @@
+/* ============================================================
+   Reframe — Design tokens
+   Calm, warm, distinctly "growth" palette (sage-teal + coral).
+   All sizing in rem so OS text-scaling / Dynamic Type works.
+   ============================================================ */
+
+:root {
+  /* ---- Brand & semantic color (light) ---- */
+  --bg:           #f6f8f7;   /* app background, faint green-grey */
+  --surface:      #ffffff;   /* cards */
+  --surface-2:    #eef2f0;   /* insets, chips */
+  --surface-3:    #e4ebe8;   /* pressed / hover */
+
+  --text:         #14201c;
+  --text-soft:    #4f635c;
+  --text-mute:    #889a92;
+  --on-primary:   #ffffff;
+
+  --primary:      #15806b;   /* deep calm teal-green */
+  --primary-soft: #d8efe8;   /* tinted fills */
+  --primary-press:#0f6655;
+  --primary-ring: rgba(21, 128, 107, 0.18);
+
+  --accent:       #e07a52;   /* warm coral — human warmth, used sparingly */
+  --accent-soft:  #fbe6dc;
+
+  --good:         #1f9d62;   /* relief / improvement */
+  --good-soft:    #d6f0e2;
+  --warn:         #c9791f;   /* the "hot thought" / caution */
+  --warn-soft:    #f8e8cf;
+  --bad:          #d9534a;   /* distress / destructive */
+  --bad-soft:     #f8dedb;
+
+  --border:       #e2e9e6;
+  --border-strong:#cdd8d3;
+
+  /* ---- Elevation ---- */
+  --shadow-sm: 0 1px 2px rgba(16, 40, 34, 0.06);
+  --shadow-md: 0 6px 18px -6px rgba(16, 40, 34, 0.14), 0 2px 6px -2px rgba(16, 40, 34, 0.08);
+  --shadow-lg: 0 20px 40px -16px rgba(16, 40, 34, 0.28);
+  --shadow-up: 0 -6px 18px -10px rgba(16, 40, 34, 0.16);
+
+  /* ---- Radii ---- */
+  --r-xs: 8px;
+  --r-sm: 12px;
+  --r-md: 18px;
+  --r-lg: 26px;
+  --r-pill: 999px;
+
+  /* ---- Spacing scale (rem) ---- */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.25rem;
+  --s-6: 1.5rem;
+  --s-7: 2rem;
+  --s-8: 2.5rem;
+
+  /* ---- Type ---- */
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+  --fs-xs:  0.75rem;
+  --fs-sm:  0.875rem;
+  --fs-md:  1rem;
+  --fs-lg:  1.125rem;
+  --fs-xl:  1.375rem;
+  --fs-2xl: 1.75rem;
+  --lh: 1.5;
+
+  /* ---- Motion ---- */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --t-fast: 0.16s var(--ease);
+  --t-med:  0.26s var(--ease);
+
+  /* ---- Layout ---- */
+  --app-max: 540px;          /* phone-frame width on large screens */
+  --nav-h: 4.25rem;
+  --header-h: 3.5rem;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --bg:           #0c1311;
+  --surface:      #131d1a;
+  --surface-2:    #1b2723;
+  --surface-3:    #243430;
+
+  --text:         #eaf2ef;
+  --text-soft:    #aabdb6;
+  --text-mute:    #6f847d;
+  --on-primary:   #04130f;
+
+  --primary:      #2fb89c;
+  --primary-soft: #103a32;
+  --primary-press:#39c9ab;
+  --primary-ring: rgba(47, 184, 156, 0.22);
+
+  --accent:       #ef926d;
+  --accent-soft:  #3a2018;
+
+  --good:         #38c585;
+  --good-soft:    #0f3a28;
+  --warn:         #e0a24a;
+  --warn-soft:    #3a2c12;
+  --bad:          #ec6a60;
+  --bad-soft:     #3a1a17;
+
+  --border:       #25332e;
+  --border-strong:#34453f;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 6px 18px -6px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 20px 40px -16px rgba(0, 0, 0, 0.7);
+  --shadow-up: 0 -6px 18px -10px rgba(0, 0, 0, 0.5);
+
+  color-scheme: dark;
+}

@@ -133,11 +133,48 @@ one module against `@capacitor-community/sqlite`; nothing else changes.
 
 ---
 
+## Analytics (optional, privacy-first)
+
+Off by default and **completely inert until you add a key** — the app makes no
+network calls otherwise.
+
+1. Create a free project at [aptabase.com](https://aptabase.com) (or self-host).
+2. Paste your app key into `APTABASE_APP_KEY` in **`src/analytics.js`**
+   (e.g. `'A-US-1234567890'`; self-hosters also set `APTABASE_SELF_HOST`).
+3. `npm run cap:sync` if shipping native.
+
+What it sends: anonymous **event names + coarse counts only** — e.g.
+`app_opened`, `record_completed { moods, traps }`, `export { format }`. It
+**never** sends thought content or any personal data, sets no cookies/ad IDs,
+honours the browser's Do-Not-Track, and users can switch it off in
+**Settings → Anonymous usage stats**. Pair it with the free **Google Play
+Console** statistics (installs, retention, crashes) for the full picture.
+
+## Monetisation (free now → Pro later)
+
+The app ships **100% free**, and the upgrade path is already wired so flipping
+it on later is a few lines — see **`src/entitlement.js`**:
+
+- `LAUNCH_FREE = true` unlocks everything for everyone today.
+- When Pro is ready: set `LAUNCH_FREE = false`, gate features with
+  `if (await isPro()) { … }`, and list them in `PRO_FEATURES`
+  (cloud backup, advanced insights, PDF export, custom reminders, …).
+- **15-day free trial:** `startTrial()` runs a local trial (frictionless), or
+  configure a 15-day free trial directly on a **Google Play subscription** for a
+  store-grade trial. Wire a verified purchase into `markPurchased()` via
+  **Google Play Billing** (e.g. the `@capacitor-community/in-app-purchases`
+  plugin or RevenueCat).
+
+Because today's value is fully on-device, the lowest-friction first step is a
+**one-time Pro unlock** (no server, no accounts); a subscription makes sense once
+a Pro feature needs a backend (e.g. cloud sync).
+
 ## Privacy
 
-No account, no network calls, no analytics. Records never leave the device.
-Export (JSON/CSV) and import are manual and user-initiated. The PIN is stored
-only as a SHA-256 hash.
+No account and no network calls by default. Records never leave the device.
+Analytics are off until you opt in a key, and even then are anonymous and
+content-free. Export (JSON/CSV) and import are manual and user-initiated. The
+PIN is stored only as a SHA-256 hash.
 
 ## Disclaimer
 

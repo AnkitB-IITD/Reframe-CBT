@@ -1,0 +1,40 @@
+/* ============================================================
+   Reframe — Print / "share with therapist" layout.
+   Renders the open record as the classic 7-column worksheet.
+   Only the element with .printable is shown when printing.
+   ============================================================ */
+@media print {
+  @page { size: landscape; margin: 12mm; }
+
+  html, body { background: #fff !important; color: #000 !important; height: auto !important; }
+  .app { box-shadow: none !important; max-width: none !important; height: auto !important; }
+  .hdr, .nav, .toastwrap, .scrim, .detail__back, .detail__actions, .iconbtn { display: none !important; }
+  .main { overflow: visible !important; padding: 0 !important; }
+
+  /* Hide every view except the one being printed */
+  .view:not(.printable) { display: none !important; }
+
+  .print-head { display: block !important; text-align: center; border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 14px; }
+  .print-head .k { font-size: 11pt; letter-spacing: 0.08em; text-transform: uppercase; color: #333; }
+  .print-head .t { font-size: 19pt; font-weight: 700; margin-top: 2px; }
+  .print-head .m { display: flex; justify-content: space-between; font-size: 9pt; margin-top: 8px; color: #333; }
+
+  /* The 7-column grid */
+  .detailwrap { display: grid !important; grid-template-columns: repeat(7, 1fr); border: 1px solid #000; }
+  .detail__date, .belief small { color: #000 !important; }
+
+  .dsec {
+    border: none !important; border-right: 1px solid #000 !important;
+    padding: 8px !important; min-height: 360px; font-size: 8.5pt !important;
+    display: flex; flex-direction: column; gap: 4px;
+    break-inside: avoid;
+  }
+  .dsec:last-child { border-right: none !important; }
+  .dsec h3 { font-size: 8pt !important; color: #000 !important; border-bottom: 1px solid #000; padding-bottom: 3px; text-transform: none !important; }
+  .dsec p { font-size: 8.5pt !important; color: #000 !important; white-space: pre-wrap; }
+  .dmood, .dhot { background: #f2f2f2 !important; }
+  .dtag { border: 1px solid #000 !important; }
+}
+
+/* Hidden on screen; revealed only in print */
+.print-head { display: none; }

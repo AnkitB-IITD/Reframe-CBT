@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Reframe</string>
+    <string name="title_activity_main">Reframe</string>
+    <string name="package_name">com.reframe.cbt</string>
+    <string name="custom_url_scheme">com.reframe.cbt</string>
+</resources>
