@@ -4,7 +4,6 @@
 import { db } from './db.js';
 import { createRouter } from './router.js';
 import { icon, h, on } from './ui.js';
-import { initAnalytics, track } from './analytics.js';
 
 import { HomeView } from './views/home.js';
 import { WizardView } from './views/wizard.js';
@@ -63,10 +62,6 @@ function buildShell() {
 async function boot() {
   // Keep our data through storage pressure (best-effort).
   db.requestPersistence();
-
-  // Anonymous analytics (no-op until an Aptabase key is set; respects opt-out).
-  await initAnalytics();
-  track('app_opened');
 
   // Theme before first paint of the app shell.
   let themeMode = await db.getMeta('theme', 'system');

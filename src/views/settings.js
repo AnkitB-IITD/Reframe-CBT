@@ -2,22 +2,90 @@
 import { db } from '../db.js';
 import { DISCLAIMER } from '../content.js';
 import { icon, esc, h, on, toast, confirmModal, shareOrDownload, sha256 } from '../ui.js';
-import { setAnalyticsEnabled, APTABASE_APP_KEY, track } from '../analytics.js';
-import { getEntitlement } from '../entitlement.js';
+import { getEntitlement, isPro } from '../entitlement.js';
+import { exportAllPdf } from '../pdf.js';
 
-/* ---- CSV builder (kept here; db stays format-agnostic) ---- */
+/* ---- CSV round-trip (kept here; db stays format-agnostic) ---- */
+const CSV_HEAD = ['Date', 'Status', 'Situation', 'Moods (before)', 'Thoughts', 'Hot thought',
+  'Thinking traps', 'Evidence for', 'Evidence against', 'Balanced thought', 'Belief %',
+  'Moods (after)', 'Outcome'];
+
 function toCSV(records) {
   const cell = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
-  const head = ['Date', 'Status', 'Situation', 'Moods (before)', 'Hot thought', 'Thinking traps',
-    'Evidence for', 'Evidence against', 'Balanced thought', 'Belief %', 'Moods (after)', 'Outcome'];
   const rows = records.map((r) => [
     r.date, r.status, r.situation,
     (r.moods || []).map((m) => `${m.name} ${m.pre}%`).join('; '),
-    r.hotThought, (r.distortions || []).join('; '),
+    r.thoughts, r.hotThought, (r.distortions || []).join('; '),
     r.evidenceFor, r.evidenceAgainst, r.balancedThought, r.balancedBelief,
     (r.moods || []).map((m) => `${m.name} ${m.post ?? m.pre}%`).join('; '), r.outcome
   ].map(cell).join(','));
-  return [head.map(cell).join(','), ...rows].join('\n');
+  return [CSV_HEAD.map(cell).join(','), ...rows].join('\n');
+}
+
+/* Minimal RFC-4180-ish CSV parser (handles quotes, commas, newlines in fields). */
+function parseCSV(text) {
+  const rows = []; let row = [], field = '', inQ = false;
+  text = text.replace(/\r\n?/g, '\n');
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inQ) {
+      if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else inQ = false; }
+      else field += c;
+    } else if (c === '"') inQ = true;
+    else if (c === ',') { row.push(field); field = ''; }
+    else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+    else field += c;
+  }
+  if (field !== '' || row.length) { row.push(field); rows.push(row); }
+  return rows.filter((r) => r.some((c) => c.trim() !== ''));
+}
+
+function parseMoodList(s) {
+  return (s || '').split(';').map((x) => x.trim()).filter(Boolean).map((x) => {
+    const m = x.match(/^(.*?)\s+(\d+)\s*%?$/);
+    return m ? { name: m[1].trim(), val: Number(m[2]) } : null;
+  }).filter(Boolean);
+}
+
+/** Parse our CSV export back into record objects. */
+function fromCSV(text) {
+  const rows = parseCSV(text);
+  if (rows.length < 2) throw new Error('That CSV has no records to import.');
+  const head = rows[0].map((h) => h.trim().toLowerCase());
+  const at = (name) => head.indexOf(name.toLowerCase());
+  const c = {
+    date: at('Date'), status: at('Status'), situation: at('Situation'),
+    before: at('Moods (before)'), thoughts: at('Thoughts'), hot: at('Hot thought'),
+    traps: at('Thinking traps'), efor: at('Evidence for'), eagainst: at('Evidence against'),
+    balanced: at('Balanced thought'), belief: at('Belief %'), after: at('Moods (after)'),
+    outcome: at('Outcome')
+  };
+  if (c.situation < 0 || c.date < 0) throw new Error('Unrecognised CSV — expected a Reframe export.');
+
+  return rows.slice(1).map((r) => {
+    const g = (k) => (c[k] >= 0 ? (r[c[k]] || '') : '');
+    const before = parseMoodList(g('before'));
+    const after = parseMoodList(g('after'));
+    const moods = before.map((b) => {
+      const a = after.find((x) => x.name === b.name);
+      return { name: b.name, pre: b.val, post: a ? a.val : null };
+    });
+    after.forEach((a) => { if (!moods.some((m) => m.name === a.name)) moods.push({ name: a.name, pre: a.val, post: a.val }); });
+    return {
+      status: (g('status') || 'complete').trim() || 'complete',
+      date: g('date').trim(),
+      situation: g('situation'),
+      moods,
+      thoughts: g('thoughts'),
+      hotThought: g('hot'),
+      distortions: (g('traps') || '').split(';').map((s) => s.trim()).filter(Boolean),
+      evidenceFor: g('efor'),
+      evidenceAgainst: g('eagainst'),
+      balancedThought: g('balanced'),
+      balancedBelief: Number((g('belief') || '').replace('%', '').trim()) || 50,
+      outcome: g('outcome')
+    };
+  });
 }
 
 /* ---- set-a-PIN modal (4 digits) ---- */
@@ -52,10 +120,10 @@ function setPinModal() {
 }
 
 export async function SettingsView(ctx) {
-  const [pinHash, theme, reminder, analyticsOptOut, ent] = await Promise.all([
+  const [pinHash, theme, reminder, ent] = await Promise.all([
     db.getMeta('pinHash'), db.getMeta('theme', 'system'),
     db.getMeta('reminder', { on: false, time: '20:00' }),
-    db.getMeta('analyticsOptOut', false), getEntitlement()
+    getEntitlement()
   ]);
   const planLabel = ent.status === 'pro' ? 'Reframe Pro'
     : ent.status === 'trial' ? `Pro trial · ${ent.trialDaysLeft} days left`
@@ -77,10 +145,6 @@ export async function SettingsView(ctx) {
           <label class="switch"><input type="checkbox" id="s-reminder" ${reminder.on ? 'checked' : ''}><span class="switch__track"></span></label>
         </div>
       </div>
-      <div class="setrow">
-        <div class="setrow__body"><strong>Anonymous usage stats</strong><p>Share anonymous counts (like “a record was completed”) to help improve Reframe. No thoughts or personal data — ever.</p></div>
-        <label class="switch"><input type="checkbox" id="s-analytics" ${analyticsOptOut ? '' : 'checked'}><span class="switch__track"></span></label>
-      </div>
     </div>
 
     <div class="card">
@@ -101,15 +165,19 @@ export async function SettingsView(ctx) {
     </div>
 
     <div class="card">
-      <div class="setrow">
-        <div class="setrow__body"><strong>Export all your data</strong><p>A complete backup of every record and your settings. Everything stays on this device unless you share it.</p></div>
+      <h2 class="card-h">Export &amp; Import all your data</h2>
+      <p class="card-sub">A complete copy of every record and your settings. Everything stays on this device unless you choose to share it.</p>
+
+      <p class="grouplabel">Export</p>
+      <button class="btn btn--primary btn--block" data-export-pdf>${icon('download', 18)} Export all to PDF</button>
+      <div class="btn-row mt-2">
+        <button class="btn btn--ghost" data-export="json">${icon('download', 18)} JSON</button>
+        <button class="btn btn--ghost" data-export="csv">${icon('download', 18)} CSV</button>
       </div>
-      <button class="btn btn--primary btn--block mt-2" data-export="json">${icon('download', 18)} Export all (JSON backup)</button>
-      <div class="util-row mt-2" style="gap:var(--s-2)">
-        <button class="btn btn--ghost" data-export="csv">${icon('download', 18)} Export as CSV</button>
-        <button class="btn btn--ghost" data-import>${icon('upload', 18)} Import backup</button>
-        <input type="file" id="s-file" accept="application/json,.json" hidden>
-      </div>
+
+      <p class="grouplabel mt-4">Import</p>
+      <button class="btn btn--ghost btn--block" data-import>${icon('upload', 18)} Import a backup (JSON or CSV)</button>
+      <input type="file" id="s-file" accept=".json,.csv,application/json,text/csv,text/comma-separated-values" hidden>
     </div>
 
     <button class="navlink" data-go="learn">
@@ -169,16 +237,6 @@ export async function SettingsView(ctx) {
     if (rtoggle.checked) { await applyReminder(true, rtime.value); toast(`Reminder moved to ${rtime.value}`, 'good'); }
   });
 
-  // ---- anonymous analytics opt-in/out ----
-  on(view, 'change', '#s-analytics', async (e) => {
-    await setAnalyticsEnabled(e.target.checked);
-    if (e.target.checked && !APTABASE_APP_KEY) {
-      toast('Saved — analytics activate once a key is configured');
-    } else {
-      toast(e.target.checked ? 'Thanks for helping improve Reframe' : 'Analytics off', e.target.checked ? 'good' : '');
-    }
-  });
-
   // ---- theme (kept in sync with the header toggle) ----
   const themeSel = view.querySelector('#s-theme');
   on(view, 'change', '#s-theme', (e) => {
@@ -189,17 +247,23 @@ export async function SettingsView(ctx) {
   const onThemeBroadcast = (e) => { if (document.body.contains(themeSel)) themeSel.value = e.detail; };
   window.addEventListener('reframe:theme', onThemeBroadcast);
 
+  // ---- export all to PDF (gated via isPro: free now, auto-gates when Pro ships) ----
+  on(view, 'click', '[data-export-pdf]', async () => {
+    const records = await db.all();
+    if (!records.length) return toast('No records to export yet');
+    if (!(await isPro())) { toast('PDF export is part of Reframe Pro'); return; } // dormant while LAUNCH_FREE
+    exportAllPdf(records);
+  });
+
   // ---- backup ----
   on(view, 'click', '[data-export]', async (e, el) => {
     const records = await db.all();
     if (el.dataset.export === 'json') {
       const stamp = new Date().toISOString().slice(0, 10);
       await shareOrDownload({ filename: `reframe-backup-${stamp}.json`, text: JSON.stringify(await db.exportData(), null, 2) });
-      track('export', { format: 'json', records: records.length });
     } else {
       if (!records.length) return toast('No records to export yet');
       await shareOrDownload({ filename: 'reframe-records.csv', text: toCSV(records), mime: 'text/csv' });
-      track('export', { format: 'csv', records: records.length });
     }
   });
   on(view, 'click', '[data-import]', () => view.querySelector('#s-file').click());
@@ -208,7 +272,11 @@ export async function SettingsView(ctx) {
     const reader = new FileReader();
     reader.onload = async (ev) => {
       try {
-        const count = await db.importData(JSON.parse(ev.target.result));
+        const text = ev.target.result;
+        // Detect format by extension, falling back to a content sniff.
+        const isCsv = /\.csv$/i.test(file.name) || (!/^\s*[[{]/.test(text) && /situation/i.test((text.split('\n')[0] || '')));
+        const parsed = isCsv ? fromCSV(text) : JSON.parse(text);
+        const count = await db.importData(parsed);
         toast(`Imported ${count} record${count === 1 ? '' : 's'}`, 'good');
       } catch (err) { toast(err.message || 'Import failed', 'bad'); }
       e.target.value = '';

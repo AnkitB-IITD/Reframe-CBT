@@ -1,6 +1,6 @@
 /* Reframe service worker — offline-first app shell cache.
  * Bump CACHE on any release so clients pull fresh assets. */
-const CACHE = 'reframe-v3';
+const CACHE = 'reframe-v5';
 
 const SHELL = [
   'index.html',
@@ -22,8 +22,8 @@ const SHELL = [
   'src/content.js',
   'src/ui.js',
   'src/insights.js',
-  'src/analytics.js',
   'src/entitlement.js',
+  'src/pdf.js',
   'src/views/home.js',
   'src/views/wizard.js',
   'src/views/history.js',

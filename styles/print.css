@@ -38,3 +38,25 @@
 
 /* Hidden on screen; revealed only in print */
 .print-head { display: none; }
+
+/* ============================================================
+   "Export all to PDF" — multi-record document (pdf.js).
+   ============================================================ */
+#print-all { display: none; }
+
+@media print {
+  body.printing-all .app { display: none !important; }
+  body.printing-all #print-all { display: block !important; color: #000; }
+
+  #print-all .pa-cover { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 16px; }
+  #print-all .pa-k { font-size: 10pt; letter-spacing: 0.08em; text-transform: uppercase; color: #333; }
+  #print-all .pa-t { font-size: 20pt; font-weight: 700; margin-top: 2px; }
+  #print-all .pa-m { font-size: 9pt; color: #333; margin-top: 4px; }
+
+  #print-all .pa-rec { break-inside: avoid; border: 1px solid #bbb; border-radius: 6px; padding: 10px 12px; margin-bottom: 12px; }
+  #print-all .pa-rechead { display: flex; justify-content: space-between; font-size: 8.5pt; font-weight: 700; color: #555; border-bottom: 1px solid #ddd; padding-bottom: 4px; margin-bottom: 6px; }
+  #print-all .pa-field { margin: 5px 0; font-size: 10pt; }
+  #print-all .pa-field b { display: block; font-size: 7.5pt; text-transform: uppercase; letter-spacing: 0.04em; color: #666; margin-bottom: 1px; }
+  #print-all .pa-field span { white-space: pre-wrap; }
+  #print-all .pa-foot { text-align: center; font-size: 8pt; color: #888; margin-top: 8px; }
+}

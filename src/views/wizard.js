@@ -13,7 +13,6 @@
 import { db } from '../db.js';
 import { STEPS, EMOTIONS, TRAPS } from '../content.js';
 import { icon, esc, clamp, h, on, toast, haptic, confirmModal, localDatetimeValue } from '../ui.js';
-import { track } from '../analytics.js';
 
 const TOTAL = 7;
 const REQUIRED = new Set([1, 2, 3, 5, 6]); // 4 (evidence-for) & 7 (re-rate) optional
@@ -259,8 +258,6 @@ export async function WizardView(ctx) {
       if (step === TOTAL) {
         haptic('success');
         await db.put({ ...data, status: 'complete' });
-        // Anonymous: counts only, never any thought content.
-        track('record_completed', { moods: data.moods.length, traps: data.distortions.length });
         toast('Thought record saved', 'good');
         ctx.navigate('home', {});
         return;

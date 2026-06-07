@@ -138,7 +138,7 @@ export const db = {
 
   // ---- backup / restore ----
   // Settings that are safe to include in a backup (never the PIN hash).
-  _safeMetaKeys: ['theme', 'reminder', 'onboardingDone', 'analyticsOptOut', 'customEmotions'],
+  _safeMetaKeys: ['theme', 'reminder', 'onboardingDone', 'customEmotions'],
 
   /** A complete, portable backup: every record + non-sensitive settings. */
   async exportData() {
