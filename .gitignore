@@ -13,6 +13,11 @@ android/local.properties
 ios/App/Pods/
 ios/App/build/
 
+# release signing secrets — NEVER commit these
+android/keystore.properties
+*.keystore
+*.jks
+
 # os / editor
 .DS_Store
 Thumbs.db

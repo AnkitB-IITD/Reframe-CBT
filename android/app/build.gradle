@@ -1,8 +1,30 @@
 apply plugin: 'com.android.application'
 
+// Release signing — loaded from android/keystore.properties (gitignored).
+// Copy keystore.properties.example → keystore.properties and fill it in
+// before building a release. Without it, release builds fall back to debug
+// signing so day-to-day dev never breaks.
+def keystorePropsFile = rootProject.file("keystore.properties")
+def keystoreProps = new Properties()
+if (keystorePropsFile.exists()) {
+    keystoreProps.load(new FileInputStream(keystorePropsFile))
+}
+
 android {
     namespace "com.reframe.cbt"
     compileSdk rootProject.ext.compileSdkVersion
+
+    signingConfigs {
+        release {
+            if (keystorePropsFile.exists()) {
+                storeFile file(keystoreProps['storeFile'])
+                storePassword keystoreProps['storePassword']
+                keyAlias keystoreProps['keyAlias']
+                keyPassword keystoreProps['keyPassword']
+            }
+        }
+    }
+
     defaultConfig {
         applicationId "com.reframe.cbt"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -18,6 +40,9 @@ android {
     }
     buildTypes {
         release {
+            // Uses your release key when keystore.properties exists, otherwise
+            // debug (keeps dev builds working). Play uploads MUST be release-signed.
+            signingConfig keystorePropsFile.exists() ? signingConfigs.release : signingConfigs.debug
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

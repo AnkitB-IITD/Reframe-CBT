@@ -183,4 +183,4 @@ struggling, please contact a qualified professional or a crisis line.
 
 ## License
 
-MIT
+
