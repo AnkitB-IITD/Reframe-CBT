@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "npx -y http-server -p 4180 -c-1 -o",
     "icons": "node scripts/generate-icons.mjs",
+    "graphics": "node scripts/generate-graphics.mjs",
     "build:web": "node scripts/sync-web.mjs",
     "cap:add:android": "npm run build:web && npx cap add android",
     "cap:sync": "npm run build:web && npx cap sync",

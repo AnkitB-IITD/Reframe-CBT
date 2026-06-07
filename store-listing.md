@@ -79,7 +79,7 @@ Play requires a public contact email on the listing. Use the same one as in
 | Asset | Spec | Status |
 |---|---|---|
 | App icon | 512×512 PNG (32-bit) | ✅ `icons/icon-512.png` |
-| Feature graphic | 1024×500 PNG/JPG | ⬜ to create (a simple banner: leaf icon + "Reframe — CBT Thought Record" on the teal brand colour `#10705e`) |
+| Feature graphic | 1024×500 PNG/JPG | ✅ `store-assets/feature-graphic.png` (regenerate with `npm run graphics`; source `feature-graphic.svg`) |
 | Phone screenshots | 2–8, PNG/JPG, 16:9 or 9:16, 320–3840 px | ⬜ capture: Home, the wizard (a step), Insights, a saved record, Settings |
 | Privacy policy URL | public https link | ✅ host `privacy.html` (e.g. https://ankitb-iitd.github.io/Reframe-CBT/privacy.html) |
 | Tablet screenshots | optional | ⬜ optional |
